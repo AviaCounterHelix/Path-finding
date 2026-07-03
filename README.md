@@ -3,17 +3,20 @@
 We have a bounding box for our space. Eight point сlockwise:
 
 Cartesian system
-1) x=0;    y=0;   z=0;
-2) x=0;    y=0;   z=500;
-3) x=1000; y=0;   z=500;
-4) x=1000; y=0;   z=0;
-5) x=0;    y=500; z=0;
-6) x=0;    y=500; z=500;
-7) x=1000; y=500; z=500;
-8) x=1000; y=500; z=0;
+1) xs=0;    ys=0;   zs=0;
+2) xs=0;    ys=0;   zs=500;
+3) xs=1000; ys=0;   zs=500;
+4) xs=1000; ys=0;   zs=0;
+5) xs=0;    ys=500; zs=0;
+6) xs=0;    ys=500; zs=500;
+7) xs=1000; ys=500; zs=500;
+8) xs=1000; ys=500; zs=0;
 
 Start point:
-1) x=90;  y=316.77; z=40.55;
+1) xst=90;  yst=316.77; zst=40.55;
 
 Finish point:
-1) x=830; y=205.21; z=390;
+1) xf=830; yf=205.21; zf=390;
+
+We have six cubic obstacles:
+1) x1= ; y1= z1=
