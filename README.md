@@ -1,4 +1,5 @@
-<img width="650" height="450" alt="image" src="https://github.com/user-attachments/assets/e4a7d8bf-6fca-4160-9a06-d38c22e5f9ef" />
+<img width="652" height="430" alt="image" src="https://github.com/user-attachments/assets/f6ea8d3b-e08a-46a1-aea8-f07970a333b8" />
+
 
 We have a bounding box for our space. Eight point сlockwise:
 
