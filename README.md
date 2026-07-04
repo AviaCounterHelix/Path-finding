@@ -1,4 +1,4 @@
-<img width="652" height="430" alt="image" src="https://github.com/user-attachments/assets/f6ea8d3b-e08a-46a1-aea8-f07970a333b8" />
+<img width="1038" height="706" alt="image" src="https://github.com/user-attachments/assets/58a3d24e-5c1d-4e4a-ad6c-331f9f1fb28a" />
 
 ______________________________________________________
 We have a bounding box for our space 1000mm x 500mm x 500mm. Eight point сlockwise:
