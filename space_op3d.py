@@ -3,7 +3,6 @@ import open3d as o3d
 
 # 1. Параметры пространства и точек
 space_bounds = np.array([[0.0, 0.0, 0.0], [1000.0, 500.0, 500.0]])
-#print(space_bounds)
 voxel_size = 30.0
 start_pt = np.array([90.0, 316.77, 40.55])
 finish_pt = np.array([830.0, 205.21, 390.0])
@@ -31,10 +30,8 @@ for obs in obstacles:
     obs_min = np.clip(obs_min, 0, dims) # 
     obs_max = np.clip(obs_max, 0, dims) #
     
-    print(obs_min, obs_max)
-    
     grid[obs_min[0]:obs_max[0], obs_min[1]:obs_max[1], obs_min[2]:obs_max[2]] = 1 # заполянем сетку, 1 - препятсвие
-    #print(grid[0])
+
 
 # 5. Визуализация
 obs_pts = space_bounds[0] + (np.argwhere(grid == 1) + 0.5) * voxel_size
