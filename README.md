@@ -3,7 +3,7 @@
 ______________________________________________________
 We have a bounding box for our space 1000mm x 500mm x 500mm. Eight point сlockwise:
 
-Cartesian system
+Cartesian coordinate system
 1) x1=0;    y1=0;   z1=0;
 2) x2=0;    y2=0;   z2=500;
 3) x3=1000; y3=0;   z3=500;
