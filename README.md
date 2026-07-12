@@ -4,6 +4,7 @@ We have a spline with 5 control points:
 Point number 6 is the end of the vector for createing of pipe crossection. The location of this point is randomly and close to start point
 To cross to this vector we create a pipe crossection.
 The coordinates of control points in Cartesion Coordinate System:
+______________________________________________________
 x1=-248.13; y1=-56.06; z1=0;
 x2=-142.02; y2=34.39; z2=55.36;
 x3=-84.62; y3=-14.61; z3=0;
