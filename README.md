@@ -19,4 +19,11 @@ x5=78.9; y5=26.84; z5=0;
 
 x6=-245.42; y6=-51.16; z6=3.7;
 
+______________________________________________________
+
+Next step we obtaion a cross vector to create a pipe crossection. For thi puprose we use points number 1 and 6 as start and finish of the vector for which we trying to find a cross vector.
+
+Code of this step in the cross_point.py
+
+But we are working in CAE System and this code translated in VBA code to implement in Femap/Nastran.
 
