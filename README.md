@@ -1,7 +1,7 @@
 <img width="1038" height="706" alt="image" src="https://github.com/user-attachments/assets/58a3d24e-5c1d-4e4a-ad6c-331f9f1fb28a" />
 
 ______________________________________________________
-We have a bounding box for our space 1000mm x 500mm x 500mm. Eight point сlockwise:
+have a bounding box for our space 1000mm x 500mm x 500mm. Eight point сlockwise:
 
 Cartesian coordinate system
 1) x1=0;    y1=0;   z1=0;
