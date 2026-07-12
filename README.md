@@ -25,5 +25,5 @@ Next step we obtain a cross vector to create a pipe crossection. For thi puprose
 
 Code of this step in the cross_point.py
 
-But we are working in CAE System and this code translated in VBA code to implement in Femap/Nastran.
+But we are working in CAE System and this code translated in VBA code to implement in Femap/Nastran like as Cross_point_Sweep_pipe.BAS.
 
