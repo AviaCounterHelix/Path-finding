@@ -21,7 +21,7 @@ x6=-245.42; y6=-51.16; z6=3.7;
 
 ______________________________________________________
 
-Next step we obtaion a cross vector to create a pipe crossection. For thi puprose we use points number 1 and 6 as start and finish of the vector for which we trying to find a cross vector.
+Next step we obtain a cross vector to create a pipe crossection. For thi puprose we use points number 1 and 6 as start and finish of the vector for which we trying to find a cross vector.
 
 Code of this step in the cross_point.py
 
