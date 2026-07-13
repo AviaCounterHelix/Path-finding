@@ -21,9 +21,19 @@ x6=-245.42; y6=-51.16; z6=3.7;
 
 ______________________________________________________
 
-Next step we obtain a cross vector to create a pipe crossection. For thi puprose we use points number 1 and 6 as start and finish of the vector for which we trying to find a cross vector.
+Next steps:
+1. We obtain a cross vector to create a pipe crossection. For this puprose we use points number 1 and 6 as start and finish of the vector for which we trying to find a cross vector.
+   
+2. We create a cross section be revolving cross vector along base vector.
+  
+3. We sweep circle cross section through the original spline.
 
-Code of this step in the cross_point.py
+______________________________________________________
+We are working in CAE System and this code translated in VBA code to implement in Femap/Nastran like as Cross_point_Sweep_pipe.BAS.
 
-But we are working in CAE System and this code translated in VBA code to implement in Femap/Nastran like as Cross_point_Sweep_pipe.BAS.
+The result is the shell geometry of the pipe
+
+<img width="1410" height="611" alt="image" src="https://github.com/user-attachments/assets/caa9f180-c229-4124-8f5c-57f628f045be" />
+
+
 
