@@ -35,5 +35,9 @@ The result is the shell geometry of the pipe
 
 <img width="1410" height="611" alt="image" src="https://github.com/user-attachments/assets/caa9f180-c229-4124-8f5c-57f628f045be" />
 
+______________________________________________________
+
+In next steps we'll create a mesh, a load condition, a constraints, a property and materail characteristics
+
 
 
