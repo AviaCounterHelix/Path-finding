@@ -129,6 +129,33 @@ rc = SetToSweep.Add(FeCurve.ID)
 rc = App.feSurfaceSweep(SetToSweep.ID, SetAlongSweep.ID)
 rc = App.feDelete(FT_SURFACE, FeSurfaceSet.ID)
 
+Dim FeMatl As femap.Matl
+Set FeMatl = App.feMatl
+
+FeMatl.type = FMT_ISOTROPIC
+FeMatl.title = "Steel"
+FeMatl.mval(0) = 21000
+FeMatl.mval(6) = 0.3
+FeMatl.Put(FeMatl.NextEmptyID)
+
+Dim FeProp As femap.Prop
+Set FeProp = App.feProp
+
+FeProp.type = FET_L_PLATE
+FeProp.title = "Tube thickness"
+FeProp.matlID = FeMatl.ID
+FeProp.pval(0) = 1
+FeProp.Put(FeProp.NextEmptyID)
+
+Dim SetToMesh As femap.Set
+Set SetToMesh = App.feSet
+
+SetToMesh.AddAll(FT_SURFACE)
+SetToMesh.Reset
+App.feAppMessage(FCM_NORMAL, Str$(SetToMesh.Count))
+
+rc = App.feMeshSizeSurface(SetToMesh.ID, True, -0.125, 0, 0, 0, 0, 0, 1, 0, 0, False)
+rc = App.feMeshSurface2(SetToMesh.ID, FeProp.ID, FTO_QUAD4, True, False)
 
 
 
