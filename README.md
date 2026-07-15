@@ -39,5 +39,17 @@ ______________________________________________________
 
 In next steps we'll create a mesh, a load condition, a constraints, a property and materail characteristics
 
+As a result of next steps an isotropic material and plate-shell property were added
+
+The Young's Modul is equal 21000 kgf/mm^2 and Poisson ration is 0.3. Thesre parameters is about steel alloys
+
+The thickness of plate property is 1 mm
+
+Finally mesh was created with size is default size / 8
+
+<img width="996" height="614" alt="image" src="https://github.com/user-attachments/assets/1cf8a3ea-bf00-439a-8787-77adfbd2ead0" />
+
+
+
 
 
