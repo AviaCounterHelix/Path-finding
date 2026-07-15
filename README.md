@@ -41,7 +41,7 @@ In next steps we'll create a mesh, a load condition, a constraints, a property a
 
 As a result of next steps an isotropic material and plate-shell property were added
 
-The Young's Modul is equal 21000 kgf/mm^2 and Poisson ration is 0.3. Thesre parameters is about steel alloys
+The Young's Modul is equal 21000 kgf/mm^2 and Poisson ration is 0.3. These parameters is about steel alloys
 
 The thickness of plate property is 1 mm
 
