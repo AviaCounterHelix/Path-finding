@@ -7,6 +7,7 @@ Sub Main
 
     Dim FeCurve As femap.Curve
     Set FeCurve = App.feCurve
+    Dim FeCurveID As Long
 
     Dim diametr As Double
 
@@ -95,84 +96,157 @@ Sub Main
 
     Dim FeSurfaceSet As femap.Set
     Set FeSurfaceSet = App.feSet
-    Dim FeSurfID As Long
-    Dim FeCurveID As Long
+    rc = FeSurfaceSet.AddAll(FT_SURFACE)
 
     Dim FeCurveSet As femap.Set
     Set FeCurveSet = App.feSet
 
-    Dim store(5) As Double
+    rc = FeCurveSet.AddAll(FT_CURVE)
 
-    rc = FeSurfaceSet.AddAll(FT_SURFACE)
+    Dim center As Variant
+    Dim normal As Variant
+    Dim start As Variant
+    Dim ends As Variant
+    Dim angle As Double
+    Dim radi As Double
 
-    FeSurfaceSet.Reset
-	FeSurfaceSet.First
-    For i = 1 To FeSurfaceSet.Count
-		FeSurfID = FeSurfaceSet.CurrentID
-		rc = FeCurveSet.AddRule(FeSurfaceSet.CurrentID, FGD_CURVE_ONSURFACE)
-		FeCurveSet.Reset
-		FeCurveSet.First
-		For j = 1 To FeCurveSet.Count
-			FeCurveID = FeCurveSet.CurrentID
-			store( (i-1)*3 + (j-1)) =FeCurveID
+    FeCurveSet.Reset
+    FeCurveSet.First
+    For i = 1 To FeCurveSet.Count
+		angle = 0
+		radi = 0
+		FeCurveID = FeCurveSet.CurrentID
+		FeCurve.Get(FeCurveID)
+		FeCurve.ArcCircleInfo(center, normal, start, ends, angle, radi)
+		If angle > 0 And radi > 0 Then
+			SetToSweep.Add(FeCurve.ID)
+		End If
 		FeCurveSet.Next
-	    Next j
-    	FeCurveSet.clear
-		FeSurfaceSet.Next
     Next i
 
-FeCurve.ID = store(2)
-rc = SetToSweep.Add(FeCurve.ID)
-FeCurve.ID = store(5)
-rc = SetToSweep.Add(FeCurve.ID)
+    rc = App.feSurfaceSweep(SetToSweep.ID, SetAlongSweep.ID)
+    rc = App.feDelete(FT_SURFACE, FeSurfaceSet.ID)
 
-rc = App.feSurfaceSweep(SetToSweep.ID, SetAlongSweep.ID)
-rc = App.feDelete(FT_SURFACE, FeSurfaceSet.ID)
+    Dim FeMatl As femap.Matl
+    Set FeMatl = App.feMatl
 
-Dim FeMatl As femap.Matl
-Set FeMatl = App.feMatl
+    FeMatl.type = FMT_ISOTROPIC
+    FeMatl.title = "Steel"
+    FeMatl.mval(0) = 21000
+    FeMatl.mval(6) = 0.3
+    FeMatl.Put(FeMatl.NextEmptyID)
 
-FeMatl.type = FMT_ISOTROPIC
-FeMatl.title = "Steel"
-FeMatl.mval(0) = 21000
-FeMatl.mval(6) = 0.3
-FeMatl.Put(FeMatl.NextEmptyID)
+    Dim FeProp As femap.Prop
+    Set FeProp = App.feProp
 
-Dim FeProp As femap.Prop
-Set FeProp = App.feProp
+    FeProp.type = FET_L_PLATE
+    FeProp.title = "Tube thickness"
+    FeProp.matlID = FeMatl.ID
+    FeProp.pval(0) = 1
+    FeProp.Put(FeProp.NextEmptyID)
 
-FeProp.type = FET_L_PLATE
-FeProp.title = "Tube thickness"
-FeProp.matlID = FeMatl.ID
-FeProp.pval(0) = 1
-FeProp.Put(FeProp.NextEmptyID)
+    Dim SetToMesh As femap.Set
+    Set SetToMesh = App.feSet
 
-Dim SetToMesh As femap.Set
-Set SetToMesh = App.feSet
+    SetToMesh.AddAll(FT_SURFACE)
+    SetToMesh.Reset
 
-SetToMesh.AddAll(FT_SURFACE)
-SetToMesh.Reset
-App.feAppMessage(FCM_NORMAL, Str$(SetToMesh.Count))
+    rc = App.feMeshSizeSurface(SetToMesh.ID, True, -0.125, 0, 0, 0, 0, 0, 1, 0, 0, False)
+    rc = App.feMeshSurface2(SetToMesh.ID, FeProp.ID, FTO_QUAD4, True, False)
 
-rc = App.feMeshSizeSurface(SetToMesh.ID, True, -0.125, 0, 0, 0, 0, 0, 1, 0, 0, False)
-rc = App.feMeshSurface2(SetToMesh.ID, FeProp.ID, FTO_QUAD4, True, False)
+    Dim SetAllCurve As femap.Set
+    Set SetAllCurve = App.feSet
 
+    Dim SetArcCurve As femap.Set
+    Set SetArcCurve = App.feSet
 
+    rc = SetAllCurve.AddAll(FT_CURVE)
+    SetAllCurve.Reset
+    SetAllCurve.First
 
+    For k = 1 To SetAllCurve.Count
+    	FeCurveID = SetAllCurve.CurrentID
+	    angle = 0
+	    radi = 0
+	    FeCurve.Get(FeCurveID)
+        FeCurve.ArcCircleInfo(center, normal, start, ends, angle, radi)
+        If angle > 0 And radi >0 Then
+			        SetArcCurve.Add(FeCurve.ID)
+        End If
+        SetAllCurve.Next
+    Next k
 
+    SetArcCurve.Reset
 
+    Dim SetNodebyCurve As femap.Set
+    Set SetNodebyCurve = App.feSet
 
+    SetArcCurve.First
+    For i = 1 To SetArcCurve.Count
+		FeCurveID = SetArcCurve.CurrentID
+		rc = SetNodebyCurve.AddRule(FeCurveID, FGD_NODE_ATCURVE)
+		SetArcCurve.Next
+    	
+    Next i
 
+    SetNodebyCurve.Reset
 
+    Dim bcs As femap.BCSet
+	Set bcs = App.feBCSet
 
+	bcs.title = "Fix"
+	bcs.Put(bcs.NextEmptyID)
+	bcs.Active = bcs.ID
 
+	Dim bcn As femap.BCNode
+	Set bcn = App.feBCNode
+	 bcn.SetID = bcs.ID
 
+	Dim ns As femap.Node
+	Set ns = App.feNode
 
+	Dim nodeID As Long
 
+	SetNodebyCurve.First
+	For i = 1 To SetNodebyCurve.Count
+		nodeID = SetNodebyCurve.CurrentID
+		ns.Get(nodeID)
+		rc = bcn.Add(-ns.ID,True,True,True,True,True,True)
+		
+		SetNodebyCurve.Next
+	Next i
 
+	bcn.Put(bcn.NextEmptyID)
 
+	Dim PressureLoad As Double
+	PressureLoad = 4.33
 
+	Dim SetFeElem As femap.Set
+	Set SetFeElem = App.feSet
+	rc = SetFeElem.AddAll(FT_ELEM)
 
+	Dim FeElemID As Long
 
+	Dim LS As femap.LoadSet
+	Set LS = App.feLoadSet
+	LS.title = "Pressure"
+	LS.Put(LS.NextEmptyID)
+	LS.Active = LS.ID
+
+	Dim pressure As femap.LoadMesh
+	Set pressure = App.feLoadMesh
+	pressure.type = FLT_EPRESSURE
+	pressure.CSys = 0
+	pressure.LoadValue = PressureLoad
+	pressure.FaceNumber = 1
+
+	SetFeElem.Reset
+	SetFeElem.First
+	For i = 1 To SetFeElem.Count
+		FeElemID = SetFeElem.CurrentID
+		pressure.meshID = FeElemID
+		pressure.Put (pressure.NextEmptyID)
+		SetFeElem.Next
+	Next i
     
 End Sub
