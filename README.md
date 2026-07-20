@@ -49,6 +49,23 @@ Finally mesh was created with size is default size / 8
 
 <img width="996" height="614" alt="image" src="https://github.com/user-attachments/assets/1cf8a3ea-bf00-439a-8787-77adfbd2ead0" />
 
+______________________________________________________
+
+Next step we create a boundary condition - fixing of the ends of the tube like full constrains of six DOFs.
+
+After that we loaded our pipe by internal pressure. The value of pressure is established by the user.
+
+The result is shown below
+
+<img width="697" height="561" alt="image" src="https://github.com/user-attachments/assets/15c33007-cb1e-463f-bcd5-42971b5539b6" />
+
+Next step will be a nonlinear static analysy
+______________________________________________________
+
+
+
+
+
 
 
 
