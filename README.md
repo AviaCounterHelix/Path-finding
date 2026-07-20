@@ -1,7 +1,7 @@
 <img width="1038" height="706" alt="image" src="https://github.com/user-attachments/assets/58a3d24e-5c1d-4e4a-ad6c-331f9f1fb28a" />
 
 ______________________________________________________
-We have a bounding box for our space 1000mm x 500mm x 500mm. Eight point сlockwise:
+We have a bounding box for our workspace 1000 mm x 500 mm x 500 mm. Eights point clockwise:
 
 Cartesian coordinate system
 1) x1=0;    y1=0;   z1=0;
@@ -19,7 +19,7 @@ Start point:
 Finish point:
 10) x10=830; y10=205.21; z10=390;
 ______________________________________________________
-We have six cubic obstacles 100mm x 100mm x 100mm each:
+We have six cubic obstacles 100 mm x 100 mm x 100 mm each:
 ______________________________________________________
 11) x11=174.89; y11=136; z11=38.71;
 12) x12=174.89; y12=136; z12=138.71;
@@ -81,11 +81,11 @@ ___________________________________________________
 58) x58=965.98; y58=375.15; z58=60.24;
 ___________________________________________________
 
-Open3d result:
+Open3D result:
 <img width="905" height="677" alt="image" src="https://github.com/user-attachments/assets/65cca704-01ab-4101-b92c-00914002d37f" />
 
 ___________________________________________________
-Octotree result:
+Octree result:
 <img width="1028" height="797" alt="image" src="https://github.com/user-attachments/assets/2d244d3e-b063-4857-9e7f-a3a908fdd8c5" />
 
 
