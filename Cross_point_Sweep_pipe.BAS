@@ -219,7 +219,7 @@ Sub Main
 	bcn.Put(bcn.NextEmptyID)
 
 	Dim PressureLoad As Double
-	PressureLoad = 4.33
+	PressureLoad = 2.33
 
 	Dim SetFeElem As femap.Set
 	Set SetFeElem = App.feSet
@@ -248,5 +248,41 @@ Sub Main
 		pressure.Put (pressure.NextEmptyID)
 		SetFeElem.Next
 	Next i
-    
+
+	Dim am As femap.AnalysisMgr
+    Set am = App.feAnalysisMgr
+
+    Dim amID As Long
+    amID = am.NextEmptyID()
+    am.title = "Nonlinear Static Analysis"
+    am.Solver = 36
+    am.AnalysisType = 10
+
+    am.NasBulkLangle = True
+
+    Dim activeLoadSetID As Long
+    Dim activeConstraintSetID As Long
+    activeLoadSetID = 1
+   activeConstraintSetID = 1
+
+    am.BCSet(0) = activeConstraintSetID
+    am.BCSet(2) = activeLoadSetID
+	am.NasCnlOn = True
+    am.NasCnlIncrements = 25
+    am.NasCnlMaxIter = 50
+    am.NasCnlConvergenceFlags(1) = True
+    am.NasCnlConvergenceFlags(2) = True
+    am.NasCnlConvergenceValue(1) = 0.001
+    am.NasCnlConvergenceValue(2) = 1/10000000
+    am.NasCnlStiffnessMethod = 1
+    am.NasCnlKstep = 5
+    am.NasCnlIntermediateOutput = 2
+
+    am.Output(2) = -1
+    am.Output(16) = -1
+	am.CornerOutput = -1
+
+    am.Put(amID)
+    am.Analyze(amID)
+
 End Sub
