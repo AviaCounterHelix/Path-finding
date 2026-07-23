@@ -61,21 +61,21 @@ The result is shown below
 Next step will be a nonlinear static analysis
 ______________________________________________________
 
-The final step is the creating of nonlinear static analysy parameters and pointing the output vectors.
+The final step is creating of nonlinear static analysis parameters and specifying the output vectors.
 
-We use Advanced Overrieds solution stategy with Modified Newton's Method.
+We use Advanced Overrides solution strategy with the Modified Newton method.
 
-We update the stiffness matrix after 5 iteraionts.
+We update the stiffness matrix after 5 iterations.
 
-The total amout of analysis steps are 25.
+The total number of analysis steps is 25.
 
-Max iterattions per step are 50.
+The maximum number of iterations per step is 50.
 
-Convergence strategy is work + load convergence. The thesholds are 1e-7 and 1e-3 respectivetly.
+The convergence strategy is work + load convergence. The tolerance thresholds are 1e-7 and 1e-3 respectively.
 
-As output vectors we get stress and displacments outputs.
+As output vectors, we request stress and displacement outputs.
 
-The contribution of VonMises stress for top and bot layer of shell are shown below.
+The contributions of VonMises stress for the top and bottom layers of shell are shown below.
 
 <img width="1916" height="816" alt="image" src="https://github.com/user-attachments/assets/c63cba85-3230-4547-9f32-d621f48b039a" />
 
