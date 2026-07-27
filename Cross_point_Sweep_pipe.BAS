@@ -285,4 +285,89 @@ Sub Main
     am.Put(amID)
     am.Analyze(amID)
 
+    Dim SetToAnalysis As femap.Set
+    Set SetToAnalysis = App.feSet
+
+    Dim SetElemOnCurve  As femap.Set
+    Set SetElemOnCurve = App.feSet
+
+	Dim nID As Long
+	SetNodebyCurve.Reset
+	SetNodebyCurve.First
+
+	For i = 1 To SetNodebyCurve.Count
+		nID = SetNodebyCurve.CurrentID
+		rc = SetElemOnCurve.AddRule(nID, FGD_ELEM_BYNODE)
+		SetNodebyCurve.Next
+	Next i
+
+	Dim SetElemPost As femap.Set
+	Set SetElemPost = App.feSet
+
+	rc = SetElemPost.AddAll(FT_ELEM)
+	rc = SetElemPost.RemoveSet(SetNodebyCurve.ID)
+
+	i = 0
+	For i = 1 To 100000000
+		i = i + 1
+	Next i
+
+    Dim RBO As Results
+    Set RBO = App.feResults
+
+    Dim nColX As Long
+    Dim nIndexX As Variant
+
+    Dim xData_MisesTop As Variant
+    Dim xData_MisesBot  As Variant
+    Dim nIDarray As Variant
+    Dim outSetActive_ID As Long
+    Dim Max_Mises As Double
+    Dim Max_Mises_Top As Double
+    Dim Max_Mises_Bot As Double
+    Dim sb As Double
+    sb = 100
+
+    outSetActive_ID = 1
+
+    RBO.AddColumnV2(outSetActive_ID, 7033, False, nColX, nIndexX)
+    rc = RBO.DataNeeded(FT_ELEM, SetElemPost.ID)
+    RBO.Populate()
+    RBO.GetColumn(nIndexX(0), nIDarray, xData_MisesTop)
+    RBO.clear
+
+    RBO.AddColumnV2(outSetActive_ID, 9033, False, nColX, nIndexX)
+    rc = RBO.DataNeeded(FT_ELEM, SetElemPost.ID)
+    RBO.Populate()
+    RBO.GetColumn(nIndexX(0), nIDarray, xData_MisesBot)
+    RBO.clear
+
+    Max_Mises_Top = xData_MisesTop(0)
+    Max_Mises_Bot = xData_MisesBot(0)
+
+    For i = 0 To SetElemPost.Count - 1
+		
+		If xData_MisesTop(i) > Max_Mises_Top Then
+			Max_Mises_Top = xData_MisesTop(i)
+		End If
+
+		If xData_MisesBot(i) > Max_Mises_Bot Then
+			Max_Mises_Bot = xData_MisesBot(i)
+		End If
+    	
+    Next i
+
+	If Max_Mises_Top > Max_Mises_Bot Then
+		Max_Mises = Max_Mises_Top
+	Else
+		Max_Mises = Max_Mises_Bot
+	End If
+
+	Dim safety_factor As Double
+	safety_factor = Round(sb / Max_Mises, 3)
+
+    App.feAppMessage(FCM_NORMAL, Str$(Max_Mises_Top))
+    App.feAppMessage(FCM_NORMAL, Str$(Max_Mises_Bot))
+    App.feAppMessage(FCM_NORMAL, Str$(safety_factor))
+
 End Sub
