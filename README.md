@@ -81,6 +81,12 @@ The contributions of VonMises stress for the top and bottom layers of shell are 
 
 <img width="1916" height="816" alt="image" src="https://github.com/user-attachments/assets/5a481dd6-7a54-4c2c-be1c-886b73f13373" />
 
+______________________________________________________
+
+Additionally we calculate the safety factor as the ultimate tensile strength devided by the maximum von Mises stress
+
+In this example sb = 100 kff/mm^2 and MaxMises = 53.15 kgf/mm2, so SF = 100/53.15 = 1.882
+
 
 
 
