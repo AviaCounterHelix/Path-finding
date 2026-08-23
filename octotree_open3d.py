@@ -1,6 +1,8 @@
 from enum import Enum
 import numpy as np
 import open3d as o3d
+from scipy.spatial import KDTree
+
 #__________________________________________________________
 # Перечисляемый тип узлов октодерева: 
 # FREE - узел полностью свободный (нет пересечения с препяствием)
@@ -198,3 +200,51 @@ o3d.visualization.draw_geometries(
     [line_set, space_box], 
     window_name="Octree: Red=Occupied, Yellow=Mixed, Gray=Free"
 )
+
+# Список словарей с полной информацией о каждом листе
+free_leaves = []
+
+def collect_free_leaves(node):
+    if not node.children:  # лист
+        if node.state == NodeState.FREE:
+            center = [
+                (node.min[0] + node.max[0]) / 2,
+                (node.min[1] + node.max[1]) / 2,
+                (node.min[2] + node.max[2]) / 2
+            ]
+            size = node.max[0] - node.min[0]
+            
+            free_leaves.append({
+                'center': np.array(center),
+                'size': size,
+                'min': np.array(node.min), 
+                'max': np.array(node.max),
+                'node': node  # ссылка на исходный узел
+            })
+    else:
+        for child in node.children:
+            collect_free_leaves(child)
+
+# Запуск сбора
+collect_free_leaves(root)
+
+# Создаём массив центров для KDTree 
+centers_array = np.array([leaf['center'] for leaf in free_leaves])
+
+print(f"Форма массива: {centers_array.shape}")  # (N, 3)
+print(f"Первые 3 центра:\n{centers_array[:3]}")
+
+# Сохраняем центры
+centers_array = np.array([leaf['center'] for leaf in free_leaves])
+np.save('octree_centers.npy', centers_array)
+
+# Сохраняем размеры
+sizes_array = np.array([leaf['size'] for leaf in free_leaves])
+np.save('octree_sizes.npy', sizes_array)
+
+print("Центры и размеры сохранены")
+
+
+
+
+
