@@ -88,4 +88,7 @@ ___________________________________________________
 Octree result:
 <img width="1028" height="797" alt="image" src="https://github.com/user-attachments/assets/2d244d3e-b063-4857-9e7f-a3a908fdd8c5" />
 
+___________________________________________________
+Added code to grab and save data about the coordinates, centers, and sizes of the free leaves
+
 
