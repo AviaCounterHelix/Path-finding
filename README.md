@@ -89,6 +89,24 @@ Octree result:
 <img width="1028" height="797" alt="image" src="https://github.com/user-attachments/assets/2d244d3e-b063-4857-9e7f-a3a908fdd8c5" />
 
 ___________________________________________________
-Added code to grab and save data about the coordinates, centers, and sizes of the free leaves
+Added code to find the optimal path from the start point to the finish point. We used the A* algorithm. The result is below.
+
+📍 Координаты точек пути:
+   Узел  0: X= 125.00  Y= 312.50  Z=  62.50
+   Узел  1: X= 226.56  Y= 246.09  Z= 113.28
+   Узел  2: X= 242.19  Y= 246.09  Z= 121.09
+   Узел  3: X= 257.81  Y= 246.09  Z= 128.91
+   Узел  4: X= 273.44  Y= 246.09  Z= 136.72
+   Узел  5: X= 296.88  Y= 242.19  Z= 148.44
+   Узел  6: X= 343.75  Y= 234.38  Z= 171.88
+   Узел  7: X= 406.25  Y= 234.38  Z= 203.12
+   Узел  8: X= 468.75  Y= 203.12  Z= 234.38
+   Узел  9: X= 531.25  Y= 203.12  Z= 265.62
+   Узел 10: X= 593.75  Y= 203.12  Z= 296.88
+   Узел 11: X= 687.50  Y= 218.75  Z= 343.75
+   Узел 12: X= 812.50  Y= 218.75  Z= 406.25
+
+   <img width="1221" height="837" alt="image" src="https://github.com/user-attachments/assets/a3e77ff2-e215-475e-935f-93b2ce482837" />
+
 
 
