@@ -5,7 +5,7 @@ description = "Add your description here"
 readme = "README.md"
 requires-python = "==3.13.*"
 dependencies = [
-    "numpy~=2.5.3",
+    "numpy~=2.2.6",
     "open3d~=0.20.0",
-    "scipy~=1.18.1",
+    "scipy~=1.15.3",
 ]
