@@ -121,4 +121,9 @@ Added code to find the optimal path from the start point to the finish point. We
    <img width="1221" height="837" alt="image" src="https://github.com/user-attachments/assets/a3e77ff2-e215-475e-935f-93b2ce482837" />
 
 
+   Rebuilt the part of the code for calculating neighbors in the KD-tree, replacing the classic loop-based approach with NumPy vectorization.
+
+   Added a section to check the minimum bending radius for path points.
+
+
 
