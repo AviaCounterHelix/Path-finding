@@ -114,7 +114,10 @@ class OctreeNode:
 
 # Границы пространства и минимальный размер куба
 SPACE_BOUNDS = np.array([[0.0, 0.0, 0.0], [1000.0, 500.0, 500.0]])
-MIN_SIZE = 30.0
+R_min = 15 # минимальный радиус гиба
+Leaf_size_ratio = 1
+MIN_SIZE = R_min * Leaf_size_ratio # минимальный размер листа
+#MIN_SIZE = 30.0
 
 # Исходные точки препятствий
 obstacles_points = [
@@ -265,7 +268,8 @@ print(f"Минимальный размер листа: {sizes_array.min()}")
 tree = KDTree(centers_array)
 
 # Радиус поиска
-radius = sizes_array.max() * 1.5 # радиус для поиска соседей по дереву
+#radius = sizes_array.max() * 1.5 # радиус для поиска соседей по дереву
+radius = sizes_array.max() * 1 # радиус для поиска соседей по дереву
 
 # Находим всех соседей на основе радиуса поиска
 pairs = tree.query_pairs(radius)
@@ -274,25 +278,35 @@ print(f"Найдено пар кандидатов: {len(pairs)}")
 
 # Фильтрация реальных соседей___________________
 
-print(f"Фильтрация {len(pairs)} пар")
-real_neighbors = [] # список для хранения индексов реальных соседей
+# Векторизованная фильтрация соседей
+print(f"Фильтрация {len(pairs)} пар (векторизованная)")
+
+# Преобразуем set пар в numpy array
+pairs_array = np.array(list(pairs))
+i_indices = pairs_array[:, 0]
+j_indices = pairs_array[:, 1]
+
+# Полуразмеры всех кубов
 half_sizes = sizes_array / 2.0
 
-# Проходим по парам
-for i, j in pairs:
-    # Эвклидово расстояние между центрами кубов
-    dist = np.linalg.norm(centers_array[i] - centers_array[j])
-    
-    # Ожидаемое расстояние: сумма полу-размеров
-    expected_dist = half_sizes[i] + half_sizes[j]
-    
-    # Допуск = 60% от размера меньшего куба
-    tolerance = min(half_sizes[i], half_sizes[j]) * 0.6
-    
-    # Определение реальных соседей: если реальное расстояние - ожидаемое <= допуску
-    if abs(dist - expected_dist) <= tolerance:
-        real_neighbors.append((i,j))
-        
+# Вычисляем расстояния между центрами (векторизованно)
+distances = np.linalg.norm(centers_array[i_indices] - centers_array[j_indices], axis=1)
+
+# Ожидаемые расстояния (сумма полуразмеров)
+expected_distances = half_sizes[i_indices] + half_sizes[j_indices]
+
+# Допуски (60% от меньшего полуразмера)
+tolerances = np.minimum(half_sizes[i_indices], half_sizes[j_indices]) * 0.6
+
+# Маска: оставляем только реальных соседей
+mask = np.abs(distances - expected_distances) <= tolerances
+
+# Фильтруем пары
+real_pairs_array = pairs_array[mask]
+
+# Преобразуем обратно в список кортежей
+real_neighbors = [tuple(pair) for pair in real_pairs_array]
+
 print(f"Связей после фильтрации: {len(real_neighbors)}")
 
 # Построение словаря смежности: ключ - это индекс узла, значение - список индексов его соседей. 
@@ -427,3 +441,29 @@ if path_indices: # проверка что список не пуст
         print(f"   Узел {i:2d}: X={point[0]:7.2f}  Y={point[1]:7.2f}  Z={point[2]:7.2f}")
 else:
     print("Путь не найден!")
+     
+# Проверка на минимальный радиус изгиба_______________
+    
+# Векторы между последовательными точками
+AB = path_points[1:-1] - path_points[:-2] 
+BC = path_points[2:] - path_points[1:-1]
+AC = path_points[2:] - path_points[:-2]
+
+# Векторное произведение и его модуль
+cross = np.cross(AB, BC)
+cross_mag = np.linalg.norm(cross, axis=1)
+
+# Длины векторов
+len_AB = np.linalg.norm(AB, axis=1)
+len_BC = np.linalg.norm(BC, axis=1)
+len_AC = np.linalg.norm(AC, axis=1)
+
+# Радиусы (для коллинеарных точек = бесконечность)
+with np.errstate(divide='ignore', invalid='ignore'):
+    radii = np.where(cross_mag < 1e-9, np.inf,
+                     (len_AB * len_BC * len_AC) / (2 * cross_mag))
+
+# Вывод результатов
+for i, R in enumerate(radii):
+    status = "✅" if R >= R_min else "❌"
+    print(f"Узел {i+1:2d}: R = {R:10.2f} мм  {status}")
