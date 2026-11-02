@@ -125,5 +125,7 @@ Added code to find the optimal path from the start point to the finish point. We
 
    Added a section to check the minimum bending radius for path points.
 
+   Optimize the code for the adjacency-list case to speed up finding the optimal path through an octree. See A*.py.
+
 
 
